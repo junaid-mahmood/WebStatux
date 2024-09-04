@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Status Checker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: #e0f2f1;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .top-half {
+            flex: 4;
+            background: linear-gradient(135deg, #4db6ac 0%, #26a69a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        .bottom-half {
+            flex: 1;
+            background-color: #e0e0e0;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+        .search-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        h1, h2 {
+            color: #00695c;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        input {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-bottom: 2px solid #b2dfdb;
+            font-size: 1rem;
+            background-color: transparent;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #00897b;
+        }
+        label {
+            position: absolute;
+            left: 0;
+            top: 1rem;
+            font-size: 1rem;
+            color: #80cbc4;
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+        input:focus + label,
+        input:not(:placeholder-shown) + label {
+            top: -1.5rem;
+            font-size: 0.8rem;
+            color: #00897b;
+        }
+        button {
+            background: linear-gradient(135deg, #4db6ac 0%, #26a69a 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        #result {
+            margin-top: 2rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        .up {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: #388e3c;
+        }
+        .down {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: #d32f2f;
+        }
+        .loader {
+            border: 4px solid #b2dfdb;
+            border-top: 4px solid #00897b;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .top-websites {
+            list-style-type: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0.8rem;
+        }
+        .top-websites li {
+            background-color: white;
+            padding: 0.7rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+        .status-indicator {
+            display: flex;
+            align-items: center;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .status-up .status-dot {
+            background-color: #4CAF50;
+        }
+        .status-down .status-dot {
+            background-color: #f44336;
+        }
+        .status-text {
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .status-up .status-text {
+            color: #4CAF50;
+        }
+        .status-down .status-text {
+            color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-half">
+            <div class="search-container">
+                <h1>Website Status Checker</h1>
+                <div class="input-group">
+                    <input type="text" id="urlInput" placeholder=" ">
+                    <label for="urlInput">Enter website URL (e.g., example.com)</label>
+                </div>
+                <button onclick="checkWebsite()">Check Status</button>
+                <div class="loader" id="loader"></div>
+                <div id="result"></div>
+            </div>
+        </div>
+        <div class="bottom-half">
+            <h2>Top 10 Websites Status</h2>
+            <ul class="top-websites" id="topWebsites">
+                <!-- Top websites will be populated here -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const topWebsites = [
+            'google.com', 'youtube.com', 'facebook.com', 'amazon.com', 'wikipedia.org',
+            'twitter.com', 'instagram.com', 'linkedin.com', 'reddit.com', 'netflix.com',
+            'microsoft.com', 'apple.com', 'twitch.tv', 'github.com', 'stackoverflow.com',
+            'pinterest.com', 'wordpress.com', 'zoom.us', 'tiktok.com', 'ebay.com',
+            'nytimes.com', 'cnn.com', 'bbc.com', 'espn.com', 'spotify.com',
+            'adobe.com', 'dropbox.com', 'quora.com', 'imdb.com', 'yahoo.com',
+            'paypal.com', 'salesforce.com'
+        ];
+
+        async function checkWebsite() {
+            let url = document.getElementById('urlInput').value.trim();
+            const resultDiv = document.getElementById('result');
+            const loader = document.getElementById('loader');
+            
+            resultDiv.textContent = '';
+            resultDiv.className = '';
+            loader.style.display = 'block';
+
+            url = url.replace(/^(https?:\/\/)/, '');
+
+            try {
+                const response = await fetch('/check', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url }),
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+
+                if (data.status === 'up') {
+                    resultDiv.textContent = `Website is UP! (Status code: ${data.statusCode})`;
+                    resultDiv.className = 'up';
+                } else {
+                    if (data.error === 'Website does not exist') {
+                        resultDiv.textContent = `The website does not exist.`;
+                    } else {
+                        resultDiv.textContent = `Website is DOWN! (${data.error || `Status code: ${data.statusCode}`})`;
+                    }
+                    resultDiv.className = 'down';
+                }
+            } catch (error) {
+                resultDiv.textContent = 'Error checking website status.';
+                resultDiv.className = 'down';
+                console.error('Error:', error);
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+
+        async function checkTopWebsites() {
+            const topWebsitesList = document.getElementById('topWebsites');
+            topWebsitesList.innerHTML = '';
+
+            for (const site of topWebsites) {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${site}</span>
+                    <span class="status-indicator" id="status-${site}">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Checking...</span>
+                    </span>
+                `;
+                topWebsitesList.appendChild(li);
+
+                try {
+                    const response = await fetch('/check', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ url: site }),
+                    });
+                    const data = await response.json();
+                    const statusIndicator = document.getElementById(`status-${site}`);
+                    statusIndicator.className = `status-indicator ${data.status === 'up' ? 'status-up' : 'status-down'}`;
+                    statusIndicator.querySelector('.status-text').textContent = `Status: ${data.status.toUpperCase()}`;
+                } catch (error) {
+                    console.error(`Error checking ${site}:`, error);
+                }
+            }
+        }
+
+        // Check top websites on page load
+        checkTopWebsites();
+    </script>
+</body>
+</html>
