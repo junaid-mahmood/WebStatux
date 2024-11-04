@@ -4,8 +4,6 @@ WebStatix is a simple and efficient Node.js application that checks the status o
 
 [WebStatix - Check if a Website is Up or Down](https://webstatux.onrender.com/)
 
-## Screenshot
-![image](https://github.com/user-attachments/assets/cc90885d-3001-4d38-8179-6468c6e3b28e)
 
 ## How it Works
 
