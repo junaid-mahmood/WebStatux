@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Release Radar - Upcoming Movies</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="movie-background">
+            <!-- Movie posters background will be added dynamically via JavaScript -->
+        </div>
+        <div class="background-overlay"></div>
+        <div class="hero">
+            <div class="hero-content" data-aos="fade-up">
+                <h1>UPCOMING MOVIES</h1>
+                <p class="hero-subtitle">Your Ultimate Guide to Future Releases</p>
+                <div class="hero-features">
+                    <div class="feature">
+                        <i class="fas fa-film"></i>
+                        <span>Latest Releases</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Release Dates</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-clock"></i>
+                        <span>Countdown Timer</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="countdown-container" data-aos="fade-up" data-aos-delay="200">
+                <div class="featured-movie">NEXT BIG RELEASE</div>
+                <div class="countdown-title">CAPTAIN AMERICA: BRAVE NEW WORLD</div>
+                <div class="countdown-display">
+                    <div class="countdown-segment">
+                        <div class="countdown-number" id="months">00</div>
+                        <div class="countdown-label">Months</div>
+                    </div>
+                    <div class="countdown-segment">
+                        <div class="countdown-number" id="days">00</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-segment">
+                        <div class="countdown-number" id="hours">00</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                </div>
+                <div class="release-date" data-aos="fade-up" data-aos-delay="400">
+                </div>
+            </div>
+
+            <div class="scroll-indicator">
+                <span class="scroll-text">Explore Movies</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="genre-tabs" data-aos="fade-up">
+        <button class="genre-tab" data-genre="all">All</button>
+        <button class="genre-tab active" data-genre="28">Action</button>
+        <button class="genre-tab" data-genre="12">Adventure</button>
+        <button class="genre-tab" data-genre="35">Comedy</button>
+        <button class="genre-tab" data-genre="18">Drama</button>
+        <button class="genre-tab" data-genre="27">Horror</button>
+        <button class="genre-tab" data-genre="878">Sci-Fi</button>
+    </div>
+
+    <main>
+        <div class="movies-grid" id="movies-container">
+            <!-- Movies will be populated here -->
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
